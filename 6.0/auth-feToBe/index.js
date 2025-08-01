@@ -7,6 +7,10 @@ const JWT_SECRET = "my_super_secret_key";
 
 const users = [];
 
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/public/index.html")
+})
+
 app.post("/signup", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -44,7 +48,7 @@ app.post("/signin", (req, res) => {
 })
 
 const auth = (req, res, next) => {
-  const token = req.headers.authorization;
+  const token = req.headers.token;
   const decodeInfo = jwt.verify(token, JWT_SECRET);
   
   if(decodeInfo.username){
