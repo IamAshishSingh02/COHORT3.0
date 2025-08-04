@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const ObjectId = mongoose.ObjectId;
-mongoose.connect("mongodb+srv://Son_Goku:Son_Goku_Ash02@cluster0.jdgnvuj.mongodb.net/todo-app-database")
+require('dotenv').config();
+mongoose.connect(process.env.MONGO_URI);
 
 const Users = new Schema({
   email: {type: String, unique: true},
