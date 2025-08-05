@@ -9,7 +9,25 @@ const {auth, JWT_SECRET} = require("./auth");
 
 const bcrypt = require("bcrypt");
 
+const {z, string} = require("zod");
+
 app.post("/signup", async (req, res) => {
+  const validBody = z.object({
+    email: z.string().min(3).max(100).email(),
+    password: z.string().min(3).max(30),
+    name: z.string().min(3).max(100)
+  })
+
+  const parsedData = validBody.safeParse(req.body);
+
+  if(!parsedData.success){
+    res.json({
+      message: "Incorect Format",
+      error: parsedData.error
+    })
+    return;
+  }
+
   const email = req.body.email;
   const password = req.body.password;
   const name = req.body.name;
