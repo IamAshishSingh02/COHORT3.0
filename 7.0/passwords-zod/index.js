@@ -44,7 +44,7 @@ app.post("/signin", async (req, res) => {
     return;
   }
 
-  const passMatch = bcrypt.compare(password, user.password)
+  const passMatch = await bcrypt.compare(password, user.password)
 
   if(passMatch){
     const token = jwt.sign({
