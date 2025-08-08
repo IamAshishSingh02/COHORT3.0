@@ -1,15 +1,13 @@
 const {Router} = require("express");
 const courseRouter = Router();
 
-courseRouter.post("/signup", (req, res) => {
+// If User want to purchase any course
+courseRouter.post("/purchase", (req, res) => {
 
 })
 
-courseRouter.post("/signin", (req, res) => {
-
-})
-
-courseRouter.get("/purchases", (req, res) => {
+// All Courses preview
+courseRouter.get("/preview", (req, res) => {
 
 })
 
