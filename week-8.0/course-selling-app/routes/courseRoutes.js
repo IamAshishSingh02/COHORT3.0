@@ -9,7 +9,7 @@ courseRouter.post("/signin", (req, res) => {
 
 })
 
-courseRouter.post("/purchases", (req, res) => {
+courseRouter.get("/purchases", (req, res) => {
 
 })
 
