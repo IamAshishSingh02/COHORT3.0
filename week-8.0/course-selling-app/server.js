@@ -1,8 +1,10 @@
 const express = require("express");
+const {adminRouter} = require("./routes/adminRoutes");
 const {userRouter} = require("./routes/userRoutes");
 const {courseRouter} = require("./routes/courseRoutes");
 const app = express();
 
+app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 app.use("/course", courseRouter);
 
