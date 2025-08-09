@@ -8,9 +8,11 @@ courseRouter.post("/purchase", (req, res) => {
 
 // All Courses preview
 courseRouter.get("/preview", (req, res) => {
-
+  res.json({
+    message: "These are the Courses available"
+  })
 })
 
-module.exports({
+module.exports = {
   courseRouter
-})
+}
