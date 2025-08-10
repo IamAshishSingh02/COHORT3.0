@@ -9,6 +9,9 @@ const jwt = require("jsonwebtoken");
 const {userModel} = require("../models/user");
 const {purchaseModel} = require("../models/purchase");
 
+const {userMiddleware} = require("../middleware/userAuth");
+const { courseModel } = require("../models/course");
+
 // User SignUp
 userRouter.post("/signup", async (req, res) => {
   // Zod Validation
@@ -88,9 +91,28 @@ userRouter.post("/signin", async (req, res) => {
   })
 })
 
-// What user have purchased
-userRouter.get("/purchases", (req, res) => {
+// User can see what all couses they have purchased
+userRouter.get("/purchases", userMiddleware, async(req, res) => {
+  // Taking userId from headers
+  const userId = req.userId;
 
+  // Finding courses from purchase db
+  const purchasedCourses = await purchaseModel.find({
+    userId
+  })
+
+  // If not found any course
+  if(!purchasedCourses){
+    res.status(401).json({
+      message: "You haven't Brought any courses!!"
+    })
+    return;
+  }
+
+  // Displaying all the courses purchased by the user
+  res.json({
+    purchasedCourses
+  })
 })
 
 module.exports = {
