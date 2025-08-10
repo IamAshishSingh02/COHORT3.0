@@ -121,7 +121,7 @@ adminRouter.put("/course", adminMiddleware, async (req, res) => {
   const {courseId, title, description, price, imageUrl} = req.body;
 
   // updating the data of course with id as courseId and aminId as adminId
-  await courseModel.updateOne({
+  const course = await courseModel.updateOne({
     _id: courseId,
     adminId
   }, {
@@ -130,6 +130,14 @@ adminRouter.put("/course", adminMiddleware, async (req, res) => {
     price,
     imageUrl
   })
+
+  // Checking if course available with same adminId and courseId
+  if(!course){
+    res.status(401).json({
+      message: "No Course found with the provided courseId and adminId!!"
+    })
+    return;
+  }
 
   // Displaying message
   res.json({
