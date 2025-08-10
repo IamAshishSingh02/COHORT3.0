@@ -7,7 +7,7 @@ const courseSchema = new Schema({
   description: String,
   price: Number,
   imageUrl: String,
-  creatorId: ObjectId
+  adminId: ObjectId
 })
 
 const courseModel = mongoose.model("courses", courseSchema);
