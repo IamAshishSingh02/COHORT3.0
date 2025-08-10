@@ -1,5 +1,6 @@
 const {Router} = require("express");
 const courseRouter = Router();
+const {userSchema, adminSchema, courseSchema, purchaseSchema} = require("../db");
 
 // If User want to purchase any course
 courseRouter.post("/purchase", (req, res) => {

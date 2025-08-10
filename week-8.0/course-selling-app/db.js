@@ -1,9 +1,6 @@
 const mongoose = require("mongoose");
 const {Schema, ObjectId} = require("mongoose");
 
-require('dotenv').config();
-mongoose.connect(process.env.MONGO_URI);
-
 const userSchema = new Schema({
   email: {type: String, unique: true},
   password: String,
