@@ -1,6 +1,12 @@
-const {Router} = require("express");
+const express = require("express");
+const Router = express.Router;
 const courseRouter = Router();
-const {userSchema, adminSchema, courseSchema, purchaseSchema} = require("../db");
+
+
+const {adminModel} = require("../models/admin")
+const {courseModel} = require("../models/course")
+const {purchaseModel} = require("../models/purchase");
+const {userModel} = require("../models/user");
 
 // If User want to purchase any course
 courseRouter.post("/purchase", (req, res) => {
