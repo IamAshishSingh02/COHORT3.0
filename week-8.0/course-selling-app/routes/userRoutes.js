@@ -1,9 +1,9 @@
 const express = require("express");
 const Router = express.Router;
 const userRouter = Router();
-userRouter.use(express.json());
 const {z} = require("zod");
 const bcrpyt = require("bcrypt");
+const jwt = require(jsonwebtoken);
 const {userModel, adminModel, courseModel, purchaseModel } = require("../db");
 
 // User SignUp
@@ -41,14 +41,48 @@ userRouter.post("/signup", async (req, res) => {
     lastName
   })
 
+  // Message Display
   res.json({
     message: "You are Signed Up!!"
   })
 })
 
 // User SignIn
-userRouter.post("/signin", (req, res) => {
+userRouter.post("/signin", async (req, res) => {
+  // Input from user
+  const {email, password} = req.body;
 
+  // Finding the user in database
+  const user = await userModel.find({
+    email
+  })
+
+  // If user does not exists
+  if(!user){
+    res.status(400).json({
+      message: "User does not exists"
+    })
+    return;
+  }
+
+  // If exists then password comparision
+  const passMatch = await bcrpyt.compare(password, user.password);
+  
+  // If password does not match
+  if(!passMatch){
+    res.status(400).json({
+      message: "Wrong Credentials"
+    })
+    return;
+  }
+
+  // If password matches then sign a jwt token for user
+  const token = jwt.sign({
+    userId: user._id
+  }, process.env.JWT_SECRET)
+  res.json({
+    token
+  })
 })
 
 // What user have purchased
