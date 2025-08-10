@@ -11,6 +11,8 @@ const {courseModel} = require("../models/course")
 const {purchaseModel} = require("../models/purchase");
 const {userModel} = require("../models/user");
 
+const {adminMiddleware} = require("../middleware/adminAuth");
+
 // Admin SignUp
 adminRouter.post("/signup", async (req, res) => {
   // Zod Validation
@@ -91,18 +93,64 @@ adminRouter.post("/signin", async (req, res) => {
 })
 
 // Admin can create course
-adminRouter.post("/course", (req, res) => {
-  
+adminRouter.post("/course", adminMiddleware, async (req, res) => {
+  // Input from User
+  const adminId = req.adminId;
+  const {title, description, price, imageUrl} = req.body;
+
+  // Adding course data in course db
+  const course = await courseModel.create({
+    title,
+    description, 
+    price,
+    imageUrl,
+    adminId
+  })
+
+  // Displaying message of course creation and giving course id to user
+  res.json({
+    message: "course created successfully!!",
+    courseId: course._id
+  })
 })
 
 // Admin can update the course
-adminRouter.put("/course", (req, res) => {
-  
+adminRouter.put("/course", adminMiddleware, async (req, res) => {
+  // Input for Updation
+  const adminId = req.adminId;
+  const {courseId, title, description, price, imageUrl} = req.body;
+
+  // updating the data of course with id as courseId and aminId as adminId
+  await courseModel.updateOne({
+    _id: courseId,
+    adminId
+  }, {
+    title,
+    description,
+    price,
+    imageUrl
+  })
+
+  // Displaying message
+  res.json({
+    message: `Course with courseId -> ${courseId} Updated Successfully!!`
+  })
 })
 
-// Admin can see all the courses
-adminRouter.get("/courses", (req, res) => {
+// Admin can see all the courses they have created
+adminRouter.get("/courses", adminMiddleware, async (req, res) => {
+  // Taking adminId form headers
+  const adminId = req.adminId;
 
+  // Finding all courses of admin with adminId
+  const courses = await courseModel.find({
+    adminId
+  })
+
+  // Displaying all the courses
+  res.json({
+    courses
+  })
 })
 
 module.exports = {
