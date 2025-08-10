@@ -9,7 +9,7 @@ const {auth, JWT_SECRET} = require("./auth");
 
 const bcrypt = require("bcrypt");
 
-const {z, string} = require("zod");
+const {z} = require("zod");
 
 app.post("/signup", async (req, res) => {
   const validBody = z.object({
