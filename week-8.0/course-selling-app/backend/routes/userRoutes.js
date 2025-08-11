@@ -99,10 +99,10 @@ userRouter.get("/purchases", userMiddleware, async(req, res) => {
   // Finding courses from purchase db
   const purchasedCourses = await purchaseModel.find({
     userId
-  })
+  }).populate("courseId", "title description price imageurl")
 
   // If not found any course
-  if(!purchasedCourses){
+  if(!purchasedCourses || purchasedCourses.length === 0){
     res.status(401).json({
       message: "You haven't Brought any courses!!"
     })
