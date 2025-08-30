@@ -1,35 +1,67 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
 function App() {
-  const [count, setCount] = useState(0)
+  return (
+    <div>
+      <div>
+        <PostComponent 
+          name = {"Ashish Singh"}
+          followerCount = {500}
+          time = {"2m ago"}
+          image = {"/profile-pic1.jpeg"}
+          description = {"What to know how to win big? Check out how these folks won $6000 in bounties."}
+        />;
+      </div>
+
+      <div>
+        <PostComponent 
+          name = {"Harkirat"}
+          followerCount = {400}
+          time = {"3m ago"}
+          image = {"/profile-pic2.jpg"}
+          description = {"How to get hired in 2024? I lost my Job in 2023, this is the roadmap I followed to get hired in 2024."}
+        />;
+      </div>
+
+      {/* <div>
+        <PostComponent />;
+      </div> */}
+    </div>
+  ) 
+}
+
+function PostComponent({name, followerCount, time, image, description}) {
+  const style = {
+    backgroundColor: "#dfe6e9",
+    width: 400,
+    borderRadius: 10,
+    borderColor: "gray",
+    borderWidth: 1,
+    borderStyle: "solid",
+    padding: 10
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div style={style}>
+        <div style={{display: "flex"}}>
+          <div>
+            <img
+              src={image}
+              style={{ width: 50, height: 50, borderRadius: 50 }}
+              alt="Profile"
+            />
+          </div>
+
+          <div style={{padding: 5, fontSize: 14}}>
+            <div><b>{name}</b></div>
+            <div>{followerCount} followers</div>
+            <div>{time}</div>
+          </div>
+        </div>
+
+        <div style={{ fontSize: 14 }}>{description}</div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
 
-export default App
+export default App;
