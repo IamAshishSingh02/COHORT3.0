@@ -4,7 +4,7 @@ function App() {
       <div>
         <PostComponent 
           name = {"Ashish Singh"}
-          followerCount = {500}
+          subtitle = {"500 followers"}
           time = {"2m ago"}
           image = {"/profile-pic1.jpeg"}
           description = {"What to know how to win big? Check out how these folks won $6000 in bounties."}
@@ -14,8 +14,7 @@ function App() {
       <div>
         <PostComponent 
           name = {"Harkirat"}
-          followerCount = {400}
-          time = {"3m ago"}
+          subtitle = {"Promoted"}
           image = {"/profile-pic2.jpg"}
           description = {"How to get hired in 2024? I lost my Job in 2023, this is the roadmap I followed to get hired in 2024."}
         />;
@@ -28,7 +27,7 @@ function App() {
   ) 
 }
 
-function PostComponent({name, followerCount, time, image, description}) {
+function PostComponent({name, subtitle, time, image, description}) {
   const style = {
     backgroundColor: "#dfe6e9",
     width: 400,
@@ -53,8 +52,17 @@ function PostComponent({name, followerCount, time, image, description}) {
 
           <div style={{padding: 5, fontSize: 14}}>
             <div><b>{name}</b></div>
-            <div>{followerCount} followers</div>
-            <div>{time}</div>
+            <div>{subtitle}</div>
+            {time && <div style={{display: "flex"}}>
+              <div>{time}</div>
+              <div>
+                <img 
+                  src="/clock.webp" 
+                  style={{width: 12, height: 12}}
+                  alt="clock" 
+                />
+              </div>
+            </div>}
           </div>
         </div>
 
