@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PostComponent } from "./Post";
 
 function App() {
@@ -31,11 +31,48 @@ function App() {
   //   </div>
   // )
 
+  const [count, setCount] = useState(1);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCount(count => count + 1)
+    }, 1000);
+    return () => clearInterval(timer)
+  }, [])
+
+  useEffect(() => {
+    console.log("Count updated to " + count)
+  }, [count])
+
   return (
-    <div>
-      <img src="/bell-icon.webp" alt="bell-icon" />
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "50px" }}>
+      <div style={{ position: "relative", display: "inline-block",  }}>
+        <img
+          src="/notifications.svg"
+          style={{ width: 30, cursor: "pointer" }}
+          alt="bell-icon"
+        />
+
+        <span
+          style={{
+            position: "absolute",
+            top: "-8px",
+            left: "14px",
+            background: "red",
+            color: "white",
+            borderRadius: "20px",
+            padding: "2px 4px",
+            fontSize: "14px",
+            fontWeight: "bold",
+            minWidth: "15px",
+            textAlign: "center"
+          }}
+        >
+          {count}
+        </span>
+      </div>
     </div>
-  )
+  );
 }
 
 export default App;
