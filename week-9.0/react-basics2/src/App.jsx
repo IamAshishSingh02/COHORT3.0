@@ -1,36 +1,41 @@
 import { useEffect, useState } from "react";
-import { PostComponent } from "./Post";
 
-function App() {
-  // const [posts, setPosts] = useState([]);
+// UseState And Component
+// import { PostComponent } from "./Post";
 
-  // function addPost() {
-  //   setPosts([...posts, {
-  //     name: "Ashish Singh",
-  //     subtitle: "500 followers",
-  //     time: "2m ago",
-  //     image: "/profile-pic1.jpeg",
-  //     description: "What to know how to win big? Check out how these folks won $6000 in bounties."
-  //   }])
-  // }
+// function App() {
+//   const [posts, setPosts] = useState([]);
 
-  // const postComponent = posts.map(post => <PostComponent 
-  //   name = {post.name}
-  //   subtitle = {post.subtitle}
-  //   time = {post.time}
-  //   image = {post.image}
-  //   description = {post.description}
-  // />)
+//   function addPost() {
+//     setPosts([...posts, {
+//       name: "Ashish Singh",
+//       subtitle: "500 followers",
+//       time: "2m ago",
+//       image: "/profile-pic1.jpeg",
+//       description: "What to know how to win big? Check out how these folks won $6000 in bounties."
+//     }])
+//   }
 
-  // return (
-  //   <div style={{ background: "#dfe6e9", minHeight: "100vh" }}>
-  //     <button onClick={addPost}>Add Post</button>
-  //     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
-  //       {postComponent}
-  //     </div>
-  //   </div>
-  // )
+//   const postComponent = posts.map(post => <PostComponent 
+//     name = {post.name}
+//     subtitle = {post.subtitle}
+//     time = {post.time}
+//     image = {post.image}
+//     description = {post.description}
+//   />)
 
+//   return (
+//     <div style={{ background: "#dfe6e9", minHeight: "100vh" }}>
+//       <button onClick={addPost}>Add Post</button>
+//       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
+//         {postComponent}
+//       </div>
+//     </div>
+//   )
+// }
+
+// UseEffect And Dependency Array
+const App = () => {
   const [count, setCount] = useState(1);
 
   useEffect(() => {
@@ -74,5 +79,5 @@ function App() {
     </div>
   );
 }
-
+  
 export default App;
