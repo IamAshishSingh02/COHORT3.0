@@ -1,4 +1,4 @@
-import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
+import {BrowserRouter, Routes, Route, Link, useNavigate} from "react-router-dom";
 
 function App() {
   return (
@@ -28,6 +28,7 @@ function App() {
 
 
 
+
 const Landing = () => {
   return(
     <div style={{color: "white"}}>
@@ -44,9 +45,16 @@ const Class11Program = () => {
 }
 
 const Class12Program = () => {
+  const navigate = useNavigate();
+
+  const redirectUser = () => {
+    navigate("/")
+  }
+  
   return(
     <div style={{color: "white"}}>
       <h2>NEET program for Class 12th</h2>
+      <button onClick={redirectUser} style={{padding: "8px", margin: "10px", border: "2px solid", borderRadius: "4px", cursor: "pointer", boxShadow: "2px 5px rgba(0, 0, 0, 0.2)"}}>Go back to Landing Page</button>
     </div>
   )
 }
