@@ -30,14 +30,14 @@ function App() {
 
 const Landing = () => {
   return(
-    <div>
+    <div style={{color: "white"}}>
       <h2>Welcome to Allen</h2>
     </div>
   )
 }
 const Class11Program = () => {
   return(
-    <div>
+    <div style={{color: "white"}}>
       <h2>NEET program for Class 11th</h2>
     </div>
   )
@@ -45,7 +45,7 @@ const Class11Program = () => {
 
 const Class12Program = () => {
   return(
-    <div>
+    <div style={{color: "white"}}>
       <h2>NEET program for Class 12th</h2>
     </div>
   )
