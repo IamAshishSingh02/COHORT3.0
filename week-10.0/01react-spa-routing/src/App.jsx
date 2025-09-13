@@ -17,7 +17,8 @@ function App() {
         </div>
 
         <Routes>
-          <Route path="/" element={<Landing />} />
+          <Route path="*" element={<ErrorPage />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/neet/online-coaching-class-11" element={<Class11Program />} />
           <Route path="/neet/online-coaching-class-12" element={<Class12Program />} />
         </Routes>
@@ -26,10 +27,15 @@ function App() {
   )
 }
 
+const ErrorPage = () => {
+  return(
+    <div style={{color: "white"}}>
+      <h2>Content not Found</h2>
+    </div>
+  )
+}
 
-
-
-const Landing = () => {
+const LandingPage = () => {
   return(
     <div style={{color: "white"}}>
       <h2>Welcome to Allen</h2>
