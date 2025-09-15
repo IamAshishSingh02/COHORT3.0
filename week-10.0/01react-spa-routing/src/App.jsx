@@ -1,6 +1,6 @@
-// import {BrowserRouter, Routes, Route, Link, useNavigate, Outlet} from "react-router-dom";
+// SPAs, Routing, useNavigate Hook, Layouts
 
-import { useRef } from "react"
+// import {BrowserRouter, Routes, Route, Link, useNavigate, Outlet} from "react-router-dom";
 
 // function App() {
 //   return (
@@ -101,25 +101,59 @@ import { useRef } from "react"
 //   )
 // }
 
-const App = () => {
-  const inputRef = useRef() 
+// useRef Hook Functionality
 
-  const focusOnInput = () => {
-    inputRef.current.focus()
+// import { useRef } from "react"
+// const App = () => {
+//   const inputRef = useRef() 
+
+//   const focusOnInput = () => {
+//     inputRef.current.focus()
+//   }
+//   return(
+//     <div style={{color: "white", margin: "20px"}}>
+//       Sign Up
+//       <br />
+//       <br />
+//       <input ref={inputRef} type="text" placeholder="Username" />
+//       <br />
+//       <br />
+//       <input type="text" placeholder="Password" />
+//       <br />
+//       <br />
+//       <button onClick={focusOnInput} style={{padding: "8px", margin: "10px", border: "2px solid", borderRadius: "4px", cursor: "pointer", boxShadow: "2px 5px rgba(0, 0, 0, 0.2)"}}>Submit</button>
+//     </div>
+//   )
+// }
+
+// A clock with a start and stop button using useRef Hook
+
+import {useRef, useState} from 'react'
+const App = () => {
+  const [count, setCount] = useState(0)
+  const timer = useRef()
+
+  const startClock = () => {
+    let clock = setInterval(() => {
+      setCount(c => c + 1)
+    }, 1000)
+    timer.current = clock
   }
+
+  const stopClock = () => {
+    clearInterval(timer.current)
+  }
+
   return(
-    <div style={{color: "white", margin: "20px"}}>
-      Sign Up
-      <br />
-      <br />
-      <input ref={inputRef} type="text" placeholder="Username" />
-      <br />
-      <br />
-      <input type="text" placeholder="Password" />
-      <br />
-      <br />
-      <button onClick={focusOnInput} style={{padding: "8px", margin: "10px", border: "2px solid", borderRadius: "4px", cursor: "pointer", boxShadow: "2px 5px rgba(0, 0, 0, 0.2)"}}>Submit</button>
-    </div>
+    <>
+      <div style={{margin: "10px"}}>
+        {count}
+        <br />
+        <button onClick={startClock} style={{padding: "8px", border: "2px solid", borderRadius: "4px", cursor: "pointer", boxShadow: "2px 5px rgba(0, 0, 0, 0.2)"}}>Start</button>
+
+        <button onClick={stopClock} style={{padding: "8px", border: "2px solid", margin: "10px", borderRadius: "4px", cursor: "pointer", boxShadow: "2px 5px rgba(0, 0, 0, 0.2)"}}>Stop</button>
+      </div>
+    </>
   )
 }
 
