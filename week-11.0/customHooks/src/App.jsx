@@ -24,12 +24,29 @@ import { useFetch } from "./hooks/useFetch"
 
 // useFetch Custom Hook
 const App = () => {
-  const post = useFetch("https://jsonplaceholder.typicode.com/posts/1")
+  const [currentPost, setCurrentPost] = useState(1)
+  const {post, loading} = useFetch("https://jsonplaceholder.typicode.com/posts/" + currentPost)
+
+  if(loading) {
+    return(
+      <div>Loading....</div>
+    )
+  }
 
   return(
-    <div>
-      {JSON.stringify(post)}
-    </div>
+    <>
+      <div>
+        <button onClick={() => setCurrentPost(1)} style={{padding: "8px", margin: "10px", border: "2px solid", borderRadius: "4px", cursor: "pointer", boxShadow: "2px 5px rgba(0, 0, 0, 0.2)"}}>Post 1</button>
+
+        <button onClick={() => setCurrentPost(2)} style={{padding: "8px", margin: "10px", border: "2px solid", borderRadius: "4px", cursor: "pointer", boxShadow: "2px 5px rgba(0, 0, 0, 0.2)"}}>Post 2</button>
+
+        <button onClick={() => setCurrentPost(3)} style={{padding: "8px", margin: "10px", border: "2px solid", borderRadius: "4px", cursor: "pointer", boxShadow: "2px 5px rgba(0, 0, 0, 0.2)"}}>Post 3</button>
+      </div>
+
+      <div>
+        {JSON.stringify(post)}
+      </div>
+    </>
   )
 }
 
