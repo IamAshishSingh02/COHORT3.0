@@ -81,7 +81,7 @@ const App = () => {
   useEffect(() => {
     // expensive operation
     // fetch
-    console.log("Exensive Oprations");
+    console.log("expensive operation");
   }, [DebouncedValue]);
 
   return (
