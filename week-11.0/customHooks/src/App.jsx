@@ -71,17 +71,24 @@ import { useDebounce } from "./hooks/useDebounce"
 
 // useDebounce Custom Hook
 const App = () => {
-  const sendDataToBackend = () => {
-    fetch("api.amazon.com/search/")
+  const [inputValue, setInputValue] = useState("");
+  const DebouncedValue = useDebounce(inputValue, 200);
+
+  const change = (event) => {
+    setInputValue(event.target.value);
   }
 
-  const debouncedFn = useDebounce(sendDataToBackend)
+  useEffect(() => {
+    // expensive operation
+    // fetch
+    console.log("Exensive Oprations");
+  }, [DebouncedValue]);
 
-  return(
-    <>
-      <input type="text" onChange={debouncedFn} />
-    </>
-  )
+  return (
+    <div>
+      <input type="text" onChange={change} />
+    </div>
+  );
 }
 
 export default App
