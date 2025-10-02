@@ -1,12 +1,15 @@
-import { useRef } from "react"
+import { useState, useEffect } from 'react';
 
-export const useDebounce = (originalFn) => {
-  const currentClock = useRef()
+export const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
 
-  const requestTimer = () => {
-    clearTimeout(currentClock.current)
-    currentClock.current = setTimeout(originalFn, 200)
-  }
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
 
-  return requestTimer
+    return () => clearTimeout(handler)
+  }, [value, delay])
+
+  return debouncedValue;
 }
