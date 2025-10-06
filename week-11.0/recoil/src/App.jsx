@@ -51,54 +51,54 @@
 
 // Memo Implementation
 
-import { useState, useEffect, memo } from "react";
+// import { useState, useEffect, memo } from "react";
 
-const App = () => {
-  return (
-    <div>
-      <Counter />
-    </div>
-  );
-}
+// const App = () => {
+//   return (
+//     <div>
+//       <Counter />
+//     </div>
+//   );
+// }
 
-const Counter = () => {
-  const [count, setCount] = useState(0)
+// const Counter = () => {
+//   const [count, setCount] = useState(0)
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCount(c => c + 1); 
-    }, 3000);
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       setCount(c => c + 1); 
+//     }, 3000);
 
-    return () => clearInterval(interval);
-  }, [])
+//     return () => clearInterval(interval);
+//   }, [])
 
-  return (
-    <div>
-      <Count count={count} />
-      <Increase setCount={setCount} />
-      <Decrease setCount={setCount} />
-    </div>
-  );
-}
+//   return (
+//     <div>
+//       <Count count={count} />
+//       <Increase setCount={setCount} />
+//       <Decrease setCount={setCount} />
+//     </div>
+//   );
+// }
 
-const Count = memo(function({ count }) {
-  return (
-    <div>
-      {count}
-    </div>
-  )
-})
+// const Count = memo(function({ count }) {
+//   return (
+//     <div>
+//       {count}
+//     </div>
+//   )
+// })
 
-const Decrease = memo(function({ setCount }) {
-  return (
-    <button onClick={() => setCount(c => c - 1)}>Decrease</button>
-  ); 
-});
+// const Decrease = memo(function({ setCount }) {
+//   return (
+//     <button onClick={() => setCount(c => c - 1)}>Decrease</button>
+//   ); 
+// });
 
-const Increase = memo(function({ setCount }) {
-  return (
-    <button onClick={() => setCount(c => c + 1)}>Increase</button>
-  )
-})
+// const Increase = memo(function({ setCount }) {
+//   return (
+//     <button onClick={() => setCount(c => c + 1)}>Increase</button>
+//   )
+// })
 
 export default App
