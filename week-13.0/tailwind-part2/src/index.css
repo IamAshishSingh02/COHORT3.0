@@ -6,3 +6,5 @@
   --color-blue-700: #002b5b;
   --color-green-400: #36c6c0;
 }
+
+@custom-variant dark (&:where(.dark, .dark *));
