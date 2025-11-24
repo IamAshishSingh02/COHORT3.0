@@ -1,11 +1,11 @@
-# -------------------------------------------------
-# Node Modules
-# -------------------------------------------------
+# =================================================
+# NODE & GENERAL PROJECT IGNORE
+# =================================================
+
+# Node modules
 node_modules/
 
-# -------------------------------------------------
 # Logs
-# -------------------------------------------------
 logs/
 *.log
 npm-debug.log*
@@ -13,49 +13,29 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# -------------------------------------------------
-# Runtime Data
-# -------------------------------------------------
+# Runtime data
 pids
 *.pid
 *.seed
 *.pid.lock
 
-# -------------------------------------------------
-# dotenv Environment Files
-# -------------------------------------------------
+# Environment files
 .env
-.env.*      # For multiple envs like .env.dev, .env.prod
+.env.*                # For multiple env files: .env.dev, .env.prod
+!.env.example         # Allow safe example env file
+
+# NPM / tooling cache
+.npm/
+.cache/
+.parcel-cache/
+.nyc_output/
+
+# Local overrides
+local.env
+.npmrc                # Might contain tokens or local paths
 
 # -------------------------------------------------
-# TypeScript Compiled Output
-# -------------------------------------------------
-dist/
-build/
-out/
-
-# Ignore JavaScript generated from TypeScript
-*.js
-*.js.map
-
-# If you keep TS in src/, but JS also appears there:
-src/**/*.js
-src/**/*.js.map
-
-# -------------------------------------------------
-# TypeScript Build Cache
-# -------------------------------------------------
-*.tsbuildinfo
-
-# -------------------------------------------------
-# VS Code
-# -------------------------------------------------
-.vscode/
-!.vscode/settings.json
-!.vscode/extensions.json
-
-# -------------------------------------------------
-# Operating System Files
+# OS FILES
 # -------------------------------------------------
 
 # macOS
@@ -68,25 +48,73 @@ Thumbs.db
 ehthumbs.db
 desktop.ini
 
-# Linux
+# Linux temporary backups
 *~
 
-# -------------------------------------------------
-# Coverage Reports
-# -------------------------------------------------
+# =================================================
+# TYPESCRIPT
+# =================================================
+
+# Compiled output directories
+dist/
+build/
+out/
+
+# Compiled JavaScript & sourcemaps
+*.js
+*.js.map
+src/**/*.js
+src/**/*.js.map
+
+# Type declaration maps
+*.d.ts.map
+
+# Declaration files (comment ONLY if building an npm library , not an application)
+*.d.ts
+
+# TypeScript build cache
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+.ts-node/
+
+# =================================================
+# EDITORS & PROJECT SETTINGS
+# =================================================
+
+# VS Code
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# JetBrains IDEs
+.idea/
+
+# Temporary editor files
+*.swp
+*.swo
+
+# VS Code workspace files
+*.code-workspace
+
+# =================================================
+# TESTING & COVERAGE
+# =================================================
+
 coverage/
 *.lcov
+junit/
+*.snap              # Jest snapshot files
 
-# -------------------------------------------------
-# NPM / Tooling Cache
-# -------------------------------------------------
-.npm/
-.cache/
-.parcel-cache/
+# Cypress / Playwright
+cypress/screenshots/
+cypress/videos/
+test-results/
 
-# -------------------------------------------------
-# Frameworks & Tools
-# -------------------------------------------------
+# =================================================
+# FRAMEWORKS & TOOLING
+# =================================================
 
 # Next.js
 .next/
@@ -97,11 +125,6 @@ out/
 .expo-shared/
 android/
 ios/
-
-# Cypress / Playwright
-cypress/screenshots/
-cypress/videos/
-test-results/
 
 # Remix
 .build/
@@ -114,27 +137,19 @@ test-results/
 
 # Bun
 .bun/
+bun.lockb
 
-# -------------------------------------------------
-# Package Archives
-# -------------------------------------------------
+# =================================================
+# ARCHIVES & PACKAGE FILES
+# =================================================
+
 *.tgz
 *.tar.gz
 
-# -------------------------------------------------
-# Editor / Workspace Files
-# -------------------------------------------------
-*.code-workspace
-.idea/
-*.swp
-*.swo
+# =================================================
+# DATABASE & TEMP FILES (Optional)
+# =================================================
 
-# Local Env Overrides
-local.env
-
-# -------------------------------------------------
-# Optional: Ignore Local Database / Temp Files
-# -------------------------------------------------
 *.sqlite
 *.db
 tmp/
