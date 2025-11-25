@@ -10,7 +10,13 @@
 // greet("As")
 
 
-const sum = (a: number, b: number) => {
-  return a + b
+// const sum = (a: number, b: number) => {
+//   return a + b
+// }
+// console.log(sum(2, 3));
+
+const delayedCall = (fn: () => void) => {
+  setTimeout(fn, 1000)
 }
-console.log(sum(2, 3));
+delayedCall(() => {console.log("Hi There");
+})
