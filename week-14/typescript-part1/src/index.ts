@@ -15,8 +15,20 @@
 // }
 // console.log(sum(2, 3));
 
-const delayedCall = (fn: () => void) => {
-  setTimeout(fn, 1000)
+// const delayedCall = (fn: () => void) => {
+//   setTimeout(fn, 1000)
+// }
+// delayedCall(() => {console.log("Hi There");
+// })
+
+const user = {
+  name: "Ashish",
+  age: 21
 }
-delayedCall(() => {console.log("Hi There");
-})
+const greet = (user: {
+  name: string,
+  age: number
+}) => {
+  console.log("Hello " + user.name);
+}
+greet(user)
