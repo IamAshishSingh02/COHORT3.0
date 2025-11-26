@@ -34,17 +34,36 @@
 // greet(user)
 
 // Interface in ts
-interface UserType{
-  firstName: string,
-  lastName: string,
+// interface UserType{
+//   firstName: string,
+//   lastName: string,
+//   age: number
+// }
+// const greet = (user: UserType) => {
+//   console.log("Hello " + user.firstName + " " + user.lastName);
+// }
+// const user: UserType = {
+//   firstName: "Ashish",
+//   lastName: "Singh",
+//   age: 21
+// }
+// greet(user)
+
+// Types in ts 
+type User = {
+  name: string,
   age: number
 }
-const greet = (user: UserType) => {
-  console.log("Hello " + user.firstName + " " + user.lastName);
+// Union of types
+type StringOrNumber = string | number
+
+// Intersection of types
+type Employee = {
+  name: string,
+  startDate: Date
 }
-const user: UserType = {
-  firstName: "Ashish",
-  lastName: "Singh",
-  age: 21
+type Manager = {
+  name: string,
+  department: string
 }
-greet(user)
+type TeamLead = Employee & Manager
