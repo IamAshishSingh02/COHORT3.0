@@ -21,14 +21,30 @@
 // delayedCall(() => {console.log("Hi There");
 // })
 
-const user = {
-  name: "Ashish",
-  age: 21
-}
-const greet = (user: {
-  name: string,
+// const user = {
+//   name: "Ashish",
+//   age: 21
+// }
+// const greet = (user: {
+//   name: string,
+//   age: number
+// }) => {
+//   console.log("Hello " + user.name);
+// }
+// greet(user)
+
+// Interface in ts
+interface UserType{
+  firstName: string,
+  lastName: string,
   age: number
-}) => {
-  console.log("Hello " + user.name);
+}
+const greet = (user: UserType) => {
+  console.log("Hello " + user.firstName + " " + user.lastName);
+}
+const user: UserType = {
+  firstName: "Ashish",
+  lastName: "Singh",
+  age: 21
 }
 greet(user)
