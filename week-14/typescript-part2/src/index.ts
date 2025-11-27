@@ -1,12 +1,16 @@
 // created a interface with optional field address - may or may not present - use q mark
-interface User{
-  name: string,
-  age: number,
-  address?: {
+interface Address{
     city: string,
     country: string,
     pincode: number
   }
+interface User{
+  name: string,
+  age: number,
+  address?: Address
+}
+interface Office{
+  address: Address
 }
 // Address field present
 const user1 = {
