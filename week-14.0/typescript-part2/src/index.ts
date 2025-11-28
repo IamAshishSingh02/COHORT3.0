@@ -74,13 +74,46 @@
 //   }
 // }
 
-// Arrays in ts
-const getMax = (nums: number[]) => {
-  let maxi = -Infinity
+// // Arrays in ts
+// const getMax = (nums: number[]) => {
+//   let maxi = -Infinity
 
-  for (const num of nums) {
-    if (num > maxi) maxi = num
-  }
-  return maxi
+//   for (const num of nums) {
+//     if (num > maxi) maxi = num
+//   }
+//   return maxi
+// }
+// console.log(getMax([1, 2, 3, 4, 4]));
+
+// Small assignment
+interface User{
+  firstName: string,
+  lastName: string,
+  age: number
 }
-console.log(getMax([1, 2, 3, 4, 4]));
+const filterUsers = (users: User[]) => {
+  return users.filter((user) => user.age > 18)
+}
+const users = [
+  {
+    firstName: "Ashish",
+    lastName: "Singh",
+    age: 21
+  },
+  {
+    firstName: "Ashish",
+    lastName: "Kumar",
+    age: 17
+  },
+  {
+    firstName: "As",
+    lastName: "Singh",
+    age: 28
+  },
+  {
+    firstName: "As",
+    lastName: "Kumar",
+    age: 23
+  }
+]
+console.log(filterUsers(users));
