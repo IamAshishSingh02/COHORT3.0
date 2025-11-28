@@ -49,27 +49,38 @@
 // console.log(user.age);
 // console.log(user.isLegal());
 
-// Creating a class that extends the abstract class
-abstract class User{
-  constructor(public name: string){
-    this.name = name
-  }
+// // Creating a class that extends the abstract class
+// abstract class User{
+//   constructor(public name: string){
+//     this.name = name
+//   }
 
-  // Abstract method
-  abstract greet(): string
+//   // Abstract method
+//   abstract greet(): string
 
-  // Abstract classes can have default implementations which interfaces does not have
-  hello(){
-    console.log("Hi There");
+//   // Abstract classes can have default implementations which interfaces does not have
+//   hello(){
+//     console.log("Hi There");
+//   }
+// }
+// class Employee extends User{
+//   constructor(public name: string){
+//     super(name)
+//     this.name = name
+//   }
+
+//   greet(){
+//     return("Hi " + this.name);
+//   }
+// }
+
+// Arrays in ts
+const getMax = (nums: number[]) => {
+  let maxi = -Infinity
+
+  for (const num of nums) {
+    if (num > maxi) maxi = num
   }
+  return maxi
 }
-class Employee extends User{
-  constructor(public name: string){
-    super(name)
-    this.name = name
-  }
-
-  greet(){
-    return("Hi " + this.name);
-  }
-}
+console.log(getMax([1, 2, 3, 4, 4]));
