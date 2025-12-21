@@ -33,14 +33,23 @@
 //   }
 // }
 
-// Maps 
-type User = {
-  id: number,
-  name: string,
-  age: number
+// // Maps 
+// type User = {
+//   id: number,
+//   name: string,
+//   age: number
+// }
+// const users = new Map<string, User>()
+// users.set("abc@1", {id: 1, name: "Ashish", age: 21})
+// users.set("abc@2", {id: 2, name: "As", age: 25})
+// console.log(users.get("abc@1"));
+// users.delete("abc@1")
+
+// Exclude
+type EventType = 'click' | 'scroll' | 'mousemove'
+type ExcludeEvent = Exclude<EventType, 'scroll'> // 'click' | 'mousemove'
+const HandleEvent = (event: ExcludeEvent) => {
+  console.log(`handling Event: ${event}`)
 }
-const users = new Map<string, User>()
-users.set("abc@1", {id: 1, name: "Ashish", age: 21})
-users.set("abc@2", {id: 2, name: "As", age: 25})
-console.log(users.get("abc@1"));
-users.delete("abc@1")
+HandleEvent('click')
+// HandleEvent('scroll') // give Error because excluded
