@@ -23,12 +23,24 @@
 // }
 // // user.age = 22 // won't work because its read only
 
-// Records in ts
-type User = Record<string, {id: number, name: string, age: number}> // Record<key type, value type>
-const users: User = {
-  "abc@1": {
-    id: 1,
-    name: "Ashish",
-    age: 21
-  }
+// // Records in ts
+// type User = Record<string, {id: number, name: string, age: number}> // Record<key type, value type>
+// const users: User = {
+//   "abc@1": {
+//     id: 1,
+//     name: "Ashish",
+//     age: 21
+//   }
+// }
+
+// Maps 
+type User = {
+  id: number,
+  name: string,
+  age: number
 }
+const users = new Map<string, User>()
+users.set("abc@1", {id: 1, name: "Ashish", age: 21})
+users.set("abc@2", {id: 2, name: "As", age: 25})
+console.log(users.get("abc@1"));
+users.delete("abc@1")
