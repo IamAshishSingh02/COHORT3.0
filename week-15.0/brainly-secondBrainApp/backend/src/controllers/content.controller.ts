@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import { Content } from "../models/content.model"
 import { isValidObjectId } from "mongoose";
+import { createContentChunks } from "../ai/chunk.service";
 
 export const createContent = async(req: Request, res: Response) => {
   try{
@@ -13,6 +14,14 @@ export const createContent = async(req: Request, res: Response) => {
       content,
       tags,
       userId
+    })
+
+    await createContentChunks({
+      contentId: newContent._id,
+      userId,
+      text: content,
+      title,
+      type
     })
 
     return res.status(201).json({
