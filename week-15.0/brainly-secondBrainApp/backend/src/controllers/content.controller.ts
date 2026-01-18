@@ -16,22 +16,33 @@ export const createContent = async(req: Request, res: Response) => {
       userId
     })
 
-    await createContentChunks({
-      contentId: newContent._id,
-      userId,
-      text: content,
-      title,
-      type
-    })
+    try{
+      await createContentChunks({
+        contentId: newContent._id,
+        userId,
+        text: content,
+        title,
+        type
+      })
+    } 
+    catch(aiError: any){
+      console.warn(
+        "⚠️ AI chunking skipped:",
+        aiError?.message || aiError
+      )
+    }
 
     return res.status(201).json({
       message: "Content created successfully",
       content: newContent
     })
   }
-  catch(error){
+  catch(error: any){
+    console.error("CREATE CONTENT ERROR:", error?.message || error)
+
     return res.status(500).json({
       message: "Failed to create content",
+      error: error?.message
     })
   }
 }
