@@ -1,16 +1,21 @@
 import { ContentChunk } from "../models/contentChunk.model";
 import { createEmbedding } from "./embedder";
+import mongoose from "mongoose";
 
-interface VectorSearchInput{
-  userId?: string
-  query: string
-  limit?: number
+interface VectorSearchInput {
+  userId?: string;
+  query: string;
+  limit?: number;
 }
 
-export const semanticSearch = async ({userId, query, limit = 5}: VectorSearchInput) => {
-  const queryEmbedding = await createEmbedding(query)
+export const semanticSearch = async ({
+  userId,
+  query,
+  limit = 5
+}: VectorSearchInput) => {
+  const queryEmbedding = await createEmbedding(query);
 
-  const pipeline: any[] = [{
+  const vectorSearchStage: any = {
     $vectorSearch: {
       index: "content_embedding_index",
       path: "embedding",
@@ -18,21 +23,24 @@ export const semanticSearch = async ({userId, query, limit = 5}: VectorSearchInp
       numCandidates: 100,
       limit
     }
-  }]
+  };
 
-  if(userId){
-    pipeline.push({
-      $match: {userId}
-    })
+  if (userId) {
+    vectorSearchStage.$vectorSearch.filter = {
+      userId: new mongoose.Types.ObjectId(userId)
+    };
   }
 
-  pipeline.push({
-    $project: {
-      text: 1,
-      metadata: 1,
-      score: {$meta: "vectorSearchScore"}
+  const pipeline = [
+    vectorSearchStage,
+    {
+      $project: {
+        text: 1,
+        metadata: 1,
+        score: { $meta: "vectorSearchScore" }
+      }
     }
-  })
+  ];
 
-  return ContentChunk.aggregate(pipeline)
-}
+  return ContentChunk.aggregate(pipeline);
+};
