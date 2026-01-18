@@ -1,3 +1,4 @@
+import "./config/env"
 import app from "./app"
 import { connectDb } from "./config/db"
 
