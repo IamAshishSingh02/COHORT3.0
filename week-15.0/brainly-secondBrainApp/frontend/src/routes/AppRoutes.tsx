@@ -2,9 +2,10 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
 import Dashboard from "@/pages/Dashboard";
+import { useAuthStore } from "@/store/auth.store";
 
 const AppRoutes = () => {
-  const isAuthenticated = false
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
 
   return (
     <BrowserRouter>
