@@ -5,7 +5,8 @@ import type { Content } from "@/components/ContentCard";
 import Sidebar from "@/components/Sidebar";
 import FullPageLoader from "@/components/FullPageLoader";
 import AddContentModal from "@/components/AddContentModal";
-import AskBrain from "@/components/AskBrain";
+import AskBrain from "@/components/AskBrain";import ShareBrain from "@/components/ShareBrain";
+
 
 const Dashboard = () => {
   const [contents, setContents] = useState<Content[]>([]);
@@ -68,6 +69,8 @@ const Dashboard = () => {
 
         {/* Ask Brain Section */}
         <AskBrain />
+
+        <ShareBrain />
 
         {/* Content List */}
         {contents.length === 0 ? (

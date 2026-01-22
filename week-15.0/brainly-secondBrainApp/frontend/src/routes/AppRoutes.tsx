@@ -4,6 +4,7 @@ import Signup from "@/pages/Signup";
 import Dashboard from "@/pages/Dashboard";
 import { useAuthStore } from "@/store/auth.store";
 import FullPageLoader from "@/components/FullPageLoader";
+import SharedBrain from "@/pages/SharedBrain";
 
 const AppRoutes = () => {
   const { isAuthenticated, isHydrated } = useAuthStore();
@@ -24,6 +25,8 @@ const AppRoutes = () => {
             isAuthenticated ? <Dashboard /> : <Navigate to="/login" />
           }
         />
+
+        <Route path="/share/:token" element={<SharedBrain />} />
       </Routes>
     </BrowserRouter>
   );
