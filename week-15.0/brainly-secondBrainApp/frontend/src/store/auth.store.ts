@@ -22,8 +22,12 @@ export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false,
   isHydrated: false,
 
+  // ✅ Called after successful login/signup
   login: (user, token) => {
-    localStorage.setItem("auth", JSON.stringify({ user, token }));
+    localStorage.setItem(
+      "auth",
+      JSON.stringify({ user, token })
+    );
 
     set({
       user,
@@ -33,6 +37,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     });
   },
 
+  // ✅ Clears everything safely
   logout: () => {
     localStorage.removeItem("auth");
 
@@ -44,18 +49,32 @@ export const useAuthStore = create<AuthState>((set) => ({
     });
   },
 
+  // ✅ Runs once on app load (VERY IMPORTANT)
   hydrate: () => {
-    const data = localStorage.getItem("auth");
+    try {
+      const stored = localStorage.getItem("auth");
 
-    if (data) {
-      const parsed = JSON.parse(data);
+      if (!stored) {
+        set({ isHydrated: true });
+        return;
+      }
+
+      const { user, token } = JSON.parse(stored);
+
+      if (!token) {
+        set({ isHydrated: true });
+        return;
+      }
+
       set({
-        user: parsed.user,
-        token: parsed.token,
+        user,
+        token,
         isAuthenticated: true,
         isHydrated: true
       });
-    } else {
+    } catch {
+      // corrupted storage fallback
+      localStorage.removeItem("auth");
       set({ isHydrated: true });
     }
   }
