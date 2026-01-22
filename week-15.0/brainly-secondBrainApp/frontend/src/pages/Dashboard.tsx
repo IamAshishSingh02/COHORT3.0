@@ -60,7 +60,7 @@ const Dashboard = () => {
 
           <button
             onClick={() => setShowAddModal(true)}
-            className="px-4 py-2 bg-black text-white rounded hover:opacity-90"
+            className="px-4 py-2 bg-black text-white rounded hover:opacity-90 cursor-pointer"
           >
             Add Content
           </button>
