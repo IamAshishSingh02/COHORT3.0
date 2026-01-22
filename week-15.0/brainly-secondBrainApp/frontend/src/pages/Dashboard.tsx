@@ -4,10 +4,12 @@ import ContentCard from "@/components/ContentCard";
 import type { Content } from "@/components/ContentCard";
 import Sidebar from "@/components/Sidebar";
 import FullPageLoader from "@/components/FullPageLoader";
+import AddContentModal from "@/components/AddContentModal";
 
 const Dashboard = () => {
   const [contents, setContents] = useState<Content[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const fetchContents = async () => {
     try {
@@ -29,13 +31,12 @@ const Dashboard = () => {
     if (!confirmed) return;
 
     try {
-      // Optimistic UI update
+      // ✅ Optimistic UI update
       setContents((prev) => prev.filter((item) => item._id !== id));
-
       await deleteContentApi(id);
     } catch (error) {
       console.error("Failed to delete content", error);
-      // Optional: refetch to restore UI if API fails
+      // fallback if delete fails
       fetchContents();
     }
   };
@@ -53,8 +54,19 @@ const Dashboard = () => {
       <Sidebar />
 
       <main className="flex-1 p-6">
-        <h1 className="text-2xl font-semibold mb-6">Your Brain</h1>
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-2xl font-semibold">Your Brain</h1>
 
+          <button
+            onClick={() => setShowAddModal(true)}
+            className="px-4 py-2 bg-black text-white rounded hover:opacity-90"
+          >
+            Add Content
+          </button>
+        </div>
+
+        {/* Content */}
         {contents.length === 0 ? (
           <div className="text-muted-foreground text-center mt-20">
             No content yet. Start adding notes to build your brain 🧠
@@ -69,6 +81,14 @@ const Dashboard = () => {
               />
             ))}
           </div>
+        )}
+
+        {/* Add Content Modal */}
+        {showAddModal && (
+          <AddContentModal
+            onClose={() => setShowAddModal(false)}
+            onSuccess={fetchContents}
+          />
         )}
       </main>
     </div>
