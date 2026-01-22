@@ -1,29 +1,29 @@
 import { useEffect, useState } from "react";
-import Sidebar from "@/components/Sidebar";
+import { fetchContentApi } from "@/services/content.api";
 import ContentCard from "@/components/ContentCard";
-import { fetchContentApi, deleteContentApi } from "@/services/content.api";
+import Sidebar from "@/components/Sidebar";
+import FullPageLoader from "@/components/FullPageLoader";
 
 interface Content {
   _id: string;
   title: string;
+  type: string;
   content: string;
   tags: string[];
-  type: string;
+  createdAt: string;
 }
 
 const Dashboard = () => {
   const [contents, setContents] = useState<Content[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const fetchContents = async (type?: string) => {
+  const fetchContents = async () => {
     try {
       setLoading(true);
-      const res = await fetchContentApi(
-        type ? { type } : undefined
-      );
+      const res = await fetchContentApi();
       setContents(res.data.contents);
     } catch (error) {
-      console.error("Fetch content failed", error);
+      console.error("Failed to fetch content", error);
     } finally {
       setLoading(false);
     }
@@ -33,43 +33,28 @@ const Dashboard = () => {
     fetchContents();
   }, []);
 
-  const handleDelete = async (id: string) => {
-    await deleteContentApi(id);
-    fetchContents();
-  };
+  if (loading) {
+    return <FullPageLoader />;
+  }
 
   return (
-    <div className="min-h-screen flex bg-gray-100">
-      <Sidebar onFilter={fetchContents} />
+    <div className="flex min-h-screen bg-background">
+      <Sidebar />
 
       <main className="flex-1 p-6">
-        <h1 className="text-2xl font-semibold mb-6">
-          Your Second Brain
-        </h1>
+        <h1 className="text-2xl font-semibold mb-6">Your Brain</h1>
 
-        {loading && (
-          <p className="text-gray-500">
-            Loading content...
-          </p>
+        {contents.length === 0 ? (
+          <div className="text-muted-foreground text-center mt-20">
+            No content yet. Start adding notes to build your brain 🧠
+          </div>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {contents.map((item) => (
+              <ContentCard key={item._id} content={item} />
+            ))}
+          </div>
         )}
-
-        {!loading && contents.length === 0 && (
-          <p className="text-gray-500">
-            No content found.
-          </p>
-        )}
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {contents.map((item) => (
-            <ContentCard
-              key={item._id}
-              title={item.title}
-              content={item.content}
-              tags={item.tags}
-              onDelete={() => handleDelete(item._id)}
-            />
-          ))}
-        </div>
       </main>
     </div>
   );
