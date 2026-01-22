@@ -3,9 +3,14 @@ import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
 import Dashboard from "@/pages/Dashboard";
 import { useAuthStore } from "@/store/auth.store";
+import FullPageLoader from "@/components/FullPageLoader";
 
 const AppRoutes = () => {
-  const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
+  const { isAuthenticated, isHydrated } = useAuthStore();
+
+  if (!isHydrated) {
+    return <FullPageLoader />;
+  }
 
   return (
     <BrowserRouter>
@@ -13,10 +18,15 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
-        <Route path="/" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
+        <Route
+          path="/"
+          element={
+            isAuthenticated ? <Dashboard /> : <Navigate to="/login" />
+          }
+        />
       </Routes>
     </BrowserRouter>
-  )
-}
+  );
+};
 
-export default AppRoutes
+export default AppRoutes;
