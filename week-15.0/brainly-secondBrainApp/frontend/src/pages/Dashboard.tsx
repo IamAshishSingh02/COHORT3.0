@@ -1,17 +1,9 @@
 import { useEffect, useState } from "react";
-import { fetchContentApi } from "@/services/content.api";
+import { fetchContentApi, deleteContentApi } from "@/services/content.api";
 import ContentCard from "@/components/ContentCard";
+import type { Content } from "@/components/ContentCard";
 import Sidebar from "@/components/Sidebar";
 import FullPageLoader from "@/components/FullPageLoader";
-
-interface Content {
-  _id: string;
-  title: string;
-  type: string;
-  content: string;
-  tags: string[];
-  createdAt: string;
-}
 
 const Dashboard = () => {
   const [contents, setContents] = useState<Content[]>([]);
@@ -26,6 +18,25 @@ const Dashboard = () => {
       console.error("Failed to fetch content", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this content?"
+    );
+
+    if (!confirmed) return;
+
+    try {
+      // Optimistic UI update
+      setContents((prev) => prev.filter((item) => item._id !== id));
+
+      await deleteContentApi(id);
+    } catch (error) {
+      console.error("Failed to delete content", error);
+      // Optional: refetch to restore UI if API fails
+      fetchContents();
     }
   };
 
@@ -51,7 +62,11 @@ const Dashboard = () => {
         ) : (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {contents.map((item) => (
-              <ContentCard key={item._id} content={item} />
+              <ContentCard
+                key={item._id}
+                content={item}
+                onDelete={handleDelete}
+              />
             ))}
           </div>
         )}
