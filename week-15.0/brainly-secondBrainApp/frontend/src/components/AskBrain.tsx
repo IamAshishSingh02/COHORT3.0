@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { askBrainApi } from "@/services/ai.api";
+import React from "react";
 
 interface Source {
   title: string;
@@ -36,7 +37,7 @@ const AskBrain = () => {
 
   return (
     <div className="border rounded-lg p-4 bg-white space-y-4">
-      <h2 className="text-lg font-semibold">Ask Your Brain 🧠</h2>
+      <h2 className="text-lg font-semibold">Ask Your Brain</h2>
 
       <textarea
         className="w-full border rounded px-3 py-2 min-h-20"
@@ -48,7 +49,7 @@ const AskBrain = () => {
       <button
         onClick={handleAsk}
         disabled={loading}
-        className="px-4 py-2 bg-black text-white rounded disabled:opacity-50"
+        className="px-4 py-2 bg-black text-white rounded disabled:opacity-50 cursor-pointer"
       >
         {loading ? "Thinking..." : "Ask"}
       </button>
@@ -84,4 +85,4 @@ const AskBrain = () => {
   );
 };
 
-export default AskBrain;
+export default React.memo(AskBrain);

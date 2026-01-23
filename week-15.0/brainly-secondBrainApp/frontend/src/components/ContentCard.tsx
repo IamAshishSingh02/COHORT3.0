@@ -12,9 +12,10 @@ export interface Content {
 interface ContentCardProps {
   content: Content;
   onDelete?: (id: string) => void;
+  onTagClick?: (tag: string) => void;
 }
 
-const ContentCard = ({ content, onDelete }: ContentCardProps) => {
+const ContentCard = ({ content, onDelete, onTagClick }: ContentCardProps) => {
   return (
     <div className="rounded-lg border bg-white p-4 shadow-sm space-y-2">
       <div className="flex justify-between items-start">
@@ -24,7 +25,6 @@ const ContentCard = ({ content, onDelete }: ContentCardProps) => {
           <button
             onClick={() => onDelete(content._id)}
             className="text-gray-400 hover:text-red-500 cursor-pointer"
-            title="Delete"
           >
             <Trash2 size={16} />
           </button>
@@ -37,10 +37,11 @@ const ContentCard = ({ content, onDelete }: ContentCardProps) => {
 
       {content.tags.length > 0 && (
         <div className="flex gap-2 flex-wrap">
-          {content.tags.map((tag) => (
+          {content.tags.map(tag => (
             <span
               key={tag}
-              className="text-xs bg-gray-100 px-2 py-1 rounded"
+              onClick={() => onTagClick?.(tag)}
+              className="text-xs bg-gray-100 px-2 py-1 rounded cursor-pointer hover:bg-gray-200"
             >
               #{tag}
             </span>

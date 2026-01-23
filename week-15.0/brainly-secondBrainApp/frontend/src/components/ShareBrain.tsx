@@ -3,6 +3,7 @@ import {
   generateShareLinkApi,
   revokeShareLinkApi
 } from "@/services/brain.api";
+import React from "react";
 
 const ShareBrain = () => {
   const [shareUrl, setShareUrl] = useState<string | null>(null);
@@ -40,13 +41,13 @@ const ShareBrain = () => {
 
   return (
     <div className="border rounded-lg p-4 bg-white space-y-3">
-      <h2 className="text-lg font-semibold">Share Your Brain 🔗</h2>
+      <h2 className="text-lg font-semibold">Share Your Brain</h2>
 
       {!shareUrl ? (
         <button
           onClick={handleGenerate}
           disabled={loading}
-          className="px-4 py-2 bg-black text-white rounded disabled:opacity-50"
+          className="px-4 py-2 bg-black text-white rounded disabled:opacity-50 cursor-pointer"
         >
           {loading ? "Generating..." : "Generate Share Link"}
         </button>
@@ -60,7 +61,7 @@ const ShareBrain = () => {
             />
             <button
               onClick={copyToClipboard}
-              className="px-3 py-1 bg-gray-200 rounded text-sm"
+              className="px-3 py-1 bg-gray-200 rounded text-sm cursor-pointer"
             >
               Copy
             </button>
@@ -69,7 +70,7 @@ const ShareBrain = () => {
           <button
             onClick={handleRevoke}
             disabled={loading}
-            className="text-sm text-red-600 underline"
+            className="text-sm text-red-600 underline cursor-pointer"
           >
             Revoke Share Link
           </button>
@@ -79,4 +80,4 @@ const ShareBrain = () => {
   );
 };
 
-export default ShareBrain;
+export default React.memo(ShareBrain);

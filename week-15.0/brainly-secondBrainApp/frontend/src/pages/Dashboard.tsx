@@ -1,99 +1,141 @@
 import { useEffect, useState } from "react";
 import { fetchContentApi, deleteContentApi } from "@/services/content.api";
 import ContentCard from "@/components/ContentCard";
-import type { Content } from "@/components/ContentCard";
+import type{ Content } from "@/components/ContentCard";
 import Sidebar from "@/components/Sidebar";
 import FullPageLoader from "@/components/FullPageLoader";
 import AddContentModal from "@/components/AddContentModal";
-import AskBrain from "@/components/AskBrain";import ShareBrain from "@/components/ShareBrain";
-
+import BrainSection from "@/components/BrainSection";
+import { X } from "lucide-react";
 
 const Dashboard = () => {
   const [contents, setContents] = useState<Content[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [searchLoading, setSearchLoading] = useState(false);
+
   const [showAddModal, setShowAddModal] = useState(false);
 
-  const fetchContents = async () => {
+  const [activeType, setActiveType] = useState<string | null>(null);
+  const [activeTag, setActiveTag] = useState<string | null>(null);
+
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  // Debounce search
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  const fetchContents = async (initial = false) => {
     try {
-      setLoading(true);
-      const res = await fetchContentApi();
+      initial ? setInitialLoading(true) : setSearchLoading(true);
+
+      const res = await fetchContentApi({
+        type: activeType ?? undefined,
+        tag: activeTag ?? undefined,
+        search: debouncedSearch || undefined
+      });
+
       setContents(res.data.contents);
     } catch (error) {
-      console.error("Failed to fetch content", error);
+      console.error("Fetch failed", error);
     } finally {
-      setLoading(false);
+      setInitialLoading(false);
+      setSearchLoading(false);
     }
   };
 
-  const handleDelete = async (id: string) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this content?"
-    );
-
-    if (!confirmed) return;
-
-    try {
-      // Optimistic UI update
-      setContents((prev) => prev.filter((item) => item._id !== id));
-      await deleteContentApi(id);
-    } catch (error) {
-      console.error("Failed to delete content", error);
-      fetchContents(); // fallback
-    }
-  };
-
+  // Initial load
   useEffect(() => {
-    fetchContents();
+    fetchContents(true);
   }, []);
 
-  if (loading) {
-    return <FullPageLoader />;
-  }
+  // Filters & search
+  useEffect(() => {
+    fetchContents(false);
+  }, [activeType, activeTag, debouncedSearch]);
+
+  const handleDelete = async (id: string) => {
+    if (!window.confirm("Delete this content?")) return;
+
+    try {
+      // Optimistic update
+      setContents(prev => prev.filter(item => item._id !== id));
+      await deleteContentApi(id);
+    } catch (error) {
+      console.error("Delete failed", error);
+      fetchContents(false);
+    }
+  };
+
+  if (initialLoading) return <FullPageLoader />;
 
   return (
     <div className="flex min-h-screen bg-background">
-      <Sidebar />
+      <Sidebar
+        activeType={activeType}
+        onSelectType={(type) => {
+          setActiveType(type);
+          setActiveTag(null);
+        }}
+      />
 
-      <main className="flex-1 p-6 space-y-8">
+      <main className="flex-1 p-6 space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-semibold">Your Brain</h1>
-
           <button
             onClick={() => setShowAddModal(true)}
-            className="px-4 py-2 bg-black text-white rounded hover:opacity-90"
+            className="px-4 py-2 bg-black text-white rounded cursor-pointer"
           >
             Add Content
           </button>
         </div>
 
-        {/* Ask Brain Section */}
-        <AskBrain />
+        {/* Search */}
+        <div className="relative max-w-md">
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search your brain..."
+            className="w-full border rounded px-3 py-2 pr-8"
+          />
+          {search && (
+            <button
+              onClick={() => setSearch("")}
+              className="absolute right-2 top-2 cursor-pointer"
+            >
+              <X size={16} />
+            </button>
+          )}
+        </div>
 
-        <ShareBrain />
+        {/* Stable Brain Section */}
+        <BrainSection />
 
-        {/* Content List */}
-        {contents.length === 0 ? (
-          <div className="text-muted-foreground text-center mt-20">
-            No content yet. Start adding notes to build your brain 🧠
-          </div>
-        ) : (
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {contents.map((item) => (
-              <ContentCard
-                key={item._id}
-                content={item}
-                onDelete={handleDelete}
-              />
-            ))}
-          </div>
+        {searchLoading && (
+          <div className="text-sm text-gray-500">Searching…</div>
         )}
 
-        {/* Add Content Modal */}
+        {/* Content */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {contents.map(item => (
+            <ContentCard
+              key={item._id}
+              content={item}
+              onDelete={handleDelete}
+              onTagClick={setActiveTag}
+            />
+          ))}
+        </div>
+
         {showAddModal && (
           <AddContentModal
             onClose={() => setShowAddModal(false)}
-            onSuccess={fetchContents}
+            onSuccess={() => fetchContents(false)}
           />
         )}
       </main>

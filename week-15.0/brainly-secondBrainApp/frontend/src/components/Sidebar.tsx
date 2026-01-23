@@ -1,13 +1,23 @@
-import { BookOpen, Link, FileText, Mic, Video, X, LogOut } from "lucide-react";
+import {
+  LayoutGrid,
+  BookOpen,
+  Link,
+  FileText,
+  Mic,
+  Video,
+  X,
+  LogOut
+} from "lucide-react";
 import { useAuthStore } from "@/store/auth.store";
 import { useNavigate } from "react-router-dom";
 
 interface SidebarProps {
-  onFilter?: (type?: string) => void;
+  activeType: string | null;
+  onSelectType: (type: string | null) => void;
 }
 
-const Sidebar = ({ onFilter }: SidebarProps) => {
-  const logout = useAuthStore((s) => s.logout);
+const Sidebar = ({ activeType, onSelectType }: SidebarProps) => {
+  const logout = useAuthStore(s => s.logout);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -15,43 +25,40 @@ const Sidebar = ({ onFilter }: SidebarProps) => {
     navigate("/login");
   };
 
+  const items = [
+    { label: "All", type: null, icon: <LayoutGrid size={18} /> },
+    { label: "Notes", type: "note", icon: <BookOpen size={18} /> },
+    { label: "Links", type: "link", icon: <Link size={18} /> },
+    { label: "Tweets", type: "tweet", icon: <X size={18} /> },
+    { label: "Videos", type: "video", icon: <Video size={18} /> },
+    { label: "Documents", type: "document", icon: <FileText size={18} /> },
+    { label: "Audio", type: "audio", icon: <Mic size={18} /> }
+  ];
+
   return (
     <aside className="w-64 border-r bg-white p-4 flex flex-col">
-      <h2 className="text-lg font-semibold mb-6">
-        Brainly
-      </h2>
+      <h2 className="text-lg font-semibold mb-6">Brainly</h2>
 
-      <nav className="space-y-2 text-sm flex-1">
-        <SidebarItem
-          icon={<BookOpen size={18} />}
-          label="Notes"
-          onClick={() => onFilter?.("note")}
-        />
-        <SidebarItem
-          icon={<Link size={18} />}
-          label="Links"
-          onClick={() => onFilter?.("link")}
-        />
-        <SidebarItem
-          icon={<X size={18} />}
-          label="Tweets"
-          onClick={() => onFilter?.("tweet")}
-        />
-        <SidebarItem
-          icon={<Video size={18} />}
-          label="Videos"
-          onClick={() => onFilter?.("video")}
-        />
-        <SidebarItem
-          icon={<FileText size={18} />}
-          label="Documents"
-          onClick={() => onFilter?.("document")}
-        />
-        <SidebarItem
-          icon={<Mic size={18} />}
-          label="Audio"
-          onClick={() => onFilter?.("audio")}
-        />
+      <nav className="space-y-1 flex-1">
+        {items.map(item => {
+          const isActive = activeType === item.type;
+
+          return (
+            <button
+              key={item.label}
+              onClick={() => onSelectType(item.type)}
+              className={`flex items-center gap-3 w-full rounded-lg px-3 py-2 text-sm cursor-pointer
+                ${
+                  isActive
+                    ? "bg-black text-white"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`}
+            >
+              {item.icon}
+              {item.label}
+            </button>
+          );
+        })}
       </nav>
 
       <button
@@ -64,23 +71,5 @@ const Sidebar = ({ onFilter }: SidebarProps) => {
     </aside>
   );
 };
-
-const SidebarItem = ({
-  icon,
-  label,
-  onClick
-}: {
-  icon: React.ReactNode;
-  label: string;
-  onClick?: () => void;
-}) => (
-  <div
-    onClick={onClick}
-    className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
-  >
-    {icon}
-    <span>{label}</span>
-  </div>
-);
 
 export default Sidebar;
