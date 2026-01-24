@@ -103,3 +103,26 @@ export const deleteContent = async (req: Request, res: Response) => {
     })
   }
 }
+
+export const updateContent = async (req: Request, res: Response) => {
+  try {
+    const contentId = req.params.id;
+    const userId = res.locals.userId;
+    const { title, content, tags } = req.body;
+
+    const updated = await Content.findOneAndUpdate(
+      { _id: contentId, userId },
+      { title, content, tags },
+      { new: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ message: "Content not found" });
+    }
+
+    return res.json({ content: updated });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Failed to update content" });
+  }
+};
