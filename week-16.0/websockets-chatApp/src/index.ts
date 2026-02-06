@@ -1,19 +1,58 @@
-import {WebSocketServer, WebSocket} from 'ws'
+import { WebSocketServer, WebSocket } from 'ws'
 
-const wss = new WebSocketServer({port: 8080})
+const wss = new WebSocketServer({ port: 8080 })
 
-let userCount = 0
-let allSockets: WebSocket[] = []
+interface User {
+  socket: WebSocket,
+  room: string
+}
+
+interface JoinMessage {
+  type: 'join'
+  payload: {
+    roomId: string,
+  }
+}
+
+interface ChatMessage {
+  type: 'chat'
+  payload: {
+    message: string
+  }
+}
+
+type IncomingMessage = JoinMessage | ChatMessage
+
+let allSockets: User[] = []
 
 wss.on("connection", (socket) => {
-  allSockets.push(socket)
-  userCount += 1
-  console.log(`User connected #${userCount}`)
+  socket.on("message", (message) => {
+    const parsedMessage: IncomingMessage = JSON.parse(message.toString())
 
-  socket.on('message', (event) => {
-    console.log(`message recieved: ${event.toString()}`)
-    allSockets.forEach(s => {
-      s.send(`${event.toString()} : sent form the server`)
-    });
+    if(parsedMessage.type === 'join'){
+      allSockets.push({
+        socket,
+        room: parsedMessage.payload.roomId
+      })
+    }
+
+    else if(parsedMessage.type === 'chat'){
+      const sender = allSockets.find(u => u.socket === socket)
+
+      if(!sender) return
+
+      const message = parsedMessage.payload.message
+      if(!message) return
+
+      allSockets.forEach(u => {
+        if(u.room ===sender.room){
+          u.socket.send(message)
+        }
+      });
+    }
+  })
+
+  socket.on("close", () => {
+    allSockets = allSockets.filter(u => u.socket !== socket)
   })
 })
