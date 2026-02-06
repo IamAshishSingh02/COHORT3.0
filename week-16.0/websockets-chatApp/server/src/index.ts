@@ -45,7 +45,7 @@ wss.on("connection", (socket) => {
       if(!message) return
 
       allSockets.forEach(u => {
-        if(u.room ===sender.room){
+        if(u.room ===sender.room && u.socket != socket){
           u.socket.send(message)
         }
       });
