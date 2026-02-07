@@ -1,0 +1,19 @@
+{
+  "name": "postgres-part1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsc -b && node ./dist/db.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/pg": "^8.16.0",
+    "pg": "^8.18.0",
+    "typescript": "^5.9.3"
+  }
+}
