@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 
 // Creating a PostgreSQL client instance and connecting to the database using a connection string
-const pgClient = new Client("URL");
+const pgClient = new Client("postgresql://postgres:mysecretpassword@localhost:5432/postgres");
 
 // Route for handling user signup requests
 app.post("/signup", async (req, res) => {
