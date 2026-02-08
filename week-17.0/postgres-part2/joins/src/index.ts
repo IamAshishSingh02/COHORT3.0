@@ -59,10 +59,10 @@ app.post("/signup", async (req, res) => {
 });
 
 // Setting up a GET endpoint to retrieve metadata about a user
-app.get("/meta-data", async (req, res) => {
+app.get("/meta-data/:id", async (req, res) => {
     try {
         // Extracting the user ID from the query parameters
-        const id = req.query.id;
+        const id = req.params.id;
 
         // SQL query to fetch user and address details using a JOIN between "users" and "addresses" tables
         const query = `
@@ -75,7 +75,7 @@ app.get("/meta-data", async (req, res) => {
                 addresses.street, 
                 addresses.pincode 
             FROM users 
-            JOIN addresses ON users.id = addresses.user_id 
+           LEFT JOIN addresses ON users.id = addresses.user_id 
             WHERE users.id = $1;
         `;
 
